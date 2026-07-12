@@ -1,0 +1,27 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="28" fill="#F7F1E8"/>
+  <rect x="58" y="52" width="1084" height="656" rx="22" fill="#FFFDF8" stroke="#E2D6C8" stroke-width="2"/>
+  <rect x="96" y="92" width="1008" height="68" rx="16" fill="#2E2018"/>
+  <circle cx="132" cy="126" r="14" fill="#D6A75B"/>
+  <rect x="166" y="116" width="178" height="20" rx="10" fill="#F4E0BC"/>
+  <rect x="856" y="116" width="72" height="18" rx="9" fill="#F4E0BC" opacity=".72"/>
+  <rect x="954" y="116" width="92" height="18" rx="9" fill="#F4E0BC" opacity=".72"/>
+  <rect x="96" y="198" width="456" height="264" rx="18" fill="#E7C88E"/>
+  <rect x="132" y="236" width="286" height="28" rx="14" fill="#2E2018"/>
+  <rect x="132" y="282" width="364" height="18" rx="9" fill="#5B4032" opacity=".68"/>
+  <rect x="132" y="316" width="326" height="18" rx="9" fill="#5B4032" opacity=".45"/>
+  <rect x="132" y="374" width="146" height="46" rx="23" fill="#2E2018"/>
+  <rect x="596" y="198" width="508" height="264" rx="18" fill="#7F4B2D"/>
+  <circle cx="788" cy="330" r="94" fill="#F0D2A0"/>
+  <circle cx="874" cy="304" r="46" fill="#D5A451"/>
+  <rect x="704" y="430" width="300" height="14" rx="7" fill="#F6E6C9" opacity=".7"/>
+  <rect x="96" y="508" width="304" height="136" rx="18" fill="#F9F5EE" stroke="#E8DED3"/>
+  <rect x="448" y="508" width="304" height="136" rx="18" fill="#F9F5EE" stroke="#E8DED3"/>
+  <rect x="800" y="508" width="304" height="136" rx="18" fill="#F9F5EE" stroke="#E8DED3"/>
+  <rect x="128" y="548" width="160" height="18" rx="9" fill="#2E2018"/>
+  <rect x="480" y="548" width="150" height="18" rx="9" fill="#2E2018"/>
+  <rect x="832" y="548" width="136" height="18" rx="9" fill="#2E2018"/>
+  <rect x="128" y="588" width="220" height="12" rx="6" fill="#8A6B56" opacity=".55"/>
+  <rect x="480" y="588" width="218" height="12" rx="6" fill="#8A6B56" opacity=".55"/>
+  <rect x="832" y="588" width="220" height="12" rx="6" fill="#8A6B56" opacity=".55"/>
+</svg>

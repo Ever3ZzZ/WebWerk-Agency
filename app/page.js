@@ -37,6 +37,7 @@ import {
   X,
 } from "lucide-react";
 import Image from "next/image";
+import { sendContactRequest } from "./actions";
 
 // Static variants defined outside the component to prevent Next.js build-time macro errors
 const slideUpVariants = {
@@ -104,9 +105,7 @@ const benefits = [
   { text: "Modernes Design, das Vertrauen aufbaut", icon: BadgeCheck },
   { text: "Schnelle Ladezeiten auf Smartphone und Desktop", icon: Gauge },
   { text: "SEO-freundlicher Aufbau für lokale Suchanfragen", icon: Search },
-  { text: "Faire Einmalzahlung ohne langfristige Verpflichtung", icon: Wallet },
   { text: "Persönlicher Ansprechpartner aus der Region", icon: UserRound },
-  { text: "Optionaler Wartungsservice, wenn Sie ihn wirklich wollen", icon: Wrench },
 ];
 
 const heroCards = [
@@ -116,10 +115,26 @@ const heroCards = [
 ];
 
 const problemCards = [
-  { text: "Veraltetes Design", icon: TimerReset },
-  { text: "Schwach auf Smartphones", icon: Laptop },
-  { text: "Langsame Ladezeiten", icon: Gauge },
-  { text: "Hohe laufende Kosten", icon: Wallet },
+  {
+    text: "Veraltetes Design",
+    sub: "Wirkt unseri\u00f6s und schreckt neue Kunden ab",
+    icon: TimerReset,
+  },
+  {
+    text: "Schwach auf Smartphones",
+    sub: "Dabei kommen die meisten Besucher mobil",
+    icon: Laptop,
+  },
+  {
+    text: "Langsame Ladezeiten",
+    sub: "Besucher springen ab, Google straft ab",
+    icon: Gauge,
+  },
+  {
+    text: "Hohe laufende Kosten",
+    sub: "Monat f\u00fcr Monat zahlen, ohne Gegenwert",
+    icon: Wallet,
+  },
 ];
 
 const navItems = [
@@ -191,9 +206,9 @@ const portfolio = [
     result: "Vertrauensstarker Auftritt für Sanierung, Innenausbau und regionale Bauleistungen.",
   },
   {
-    title: "Serentity Massage ",
+    title: "Serenity Massage",
     type: "Massage Studio (Business Website)",
-    location: "Nederlande",
+    location: "Niederlande",
     image: "/portfolio/Massage.png",
     href: "https://chip-horse-67963957.figma.site/",
     result: "Professionelle Massageangebote mit modernem Design und intuitiver Buchung.",
@@ -201,7 +216,7 @@ const portfolio = [
   {
     title: "Elektoria",
     type: "Elektriker-Fachbetrieb (Starter Website)",
-    location: "Nederlande",
+    location: "Niederlande",
     image: "/portfolio/Elektoria.png",
     href: "https://www.elektoria.nl/",
     result: "Elektriker in Veenendaal für Sicherungskästen, Ladestationen, Beleuchtung und Altbausanierung",
@@ -211,7 +226,7 @@ const portfolio = [
 const processSteps = [
   { label: "Kostenloses Erstgespräch", meta: "Start", icon: MessageSquareText },
   { label: "Planung Ihrer Webseite", meta: "Strategie", icon: Lightbulb },
-  { label: "Design & Entwicklung", meta: "Build", icon: Code2 },
+  { label: "Design & Entwicklung", meta: "Umsetzung", icon: Code2 },
   { label: "Veröffentlichung", meta: "Launch", icon: Rocket },
   { label: "Auf Wunsch Betreuung und Wartung", meta: "Ziel", icon: ShieldCheck },
 ];
@@ -377,6 +392,8 @@ export default function Home() {
   });
   const [activeFaq, setActiveFaq] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showMenuHint, setShowMenuHint] = useState(false);
 
@@ -612,16 +629,58 @@ export default function Home() {
             viewport={{ once: true, margin: "-80px" }}
             className="grid gap-4 md:grid-cols-4"
           >
-            {problemCards.map((item, index) => (
-              <SeaFillCard
+            {problemCards.map((item) => (
+              <motion.div
                 key={item.text}
-                icon={item.icon}
-                index={index}
-                className="min-h-40"
+                variants={fadeUp}
+                whileHover={{ y: -6 }}
+                className="group relative min-h-40 overflow-hidden rounded-[2rem] border border-dashed border-ink/20 bg-white/45 p-7 transition duration-300 hover:border-red-400/50 hover:bg-white/70 hover:shadow-[0_16px_40px_-12px_rgba(220,38,38,0.28)]"
               >
-                <p className="text-lg font-bold leading-tight">{item.text}</p>
-              </SeaFillCard>
+                <span className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-red-500/10 opacity-60 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
+                <span className="absolute right-5 top-5 flex h-7 w-7 items-center justify-center rounded-full bg-red-500/10 text-red-600 transition-colors duration-300 group-hover:bg-red-600 group-hover:text-white">
+                  <span className="absolute inset-0 animate-ping rounded-full bg-red-500/25 [animation-duration:2.4s]" />
+                  <X
+                    size={15}
+                    strokeWidth={3}
+                    className="relative transition-transform duration-300 group-hover:rotate-90"
+                  />
+                </span>
+                <item.icon
+                  size={26}
+                  className="mb-5 text-ink/30 transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:text-red-500/60"
+                />
+                <p className="text-lg font-bold leading-tight text-ink/55 transition-colors duration-300 group-hover:text-ink/80">
+                  {item.text}
+                </p>
+                <p className="mt-2 text-sm font-medium leading-snug text-ink/40 transition-colors duration-300 group-hover:text-ink/60">
+                  {item.sub}
+                </p>
+              </motion.div>
             ))}
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.4 }}
+            className="mt-6 flex flex-col items-start justify-between gap-5 rounded-[2rem] border border-moss/25 bg-[#DDE5D6] p-7 shadow-line sm:flex-row sm:items-center"
+          >
+            <div className="flex items-start gap-4 sm:items-center">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-moss text-white">
+                <Check size={20} strokeWidth={3} />
+              </span>
+              <p className="text-lg font-bold leading-snug text-ink">
+                Bei WebWerk Franken: einmal zahlen, modern auftreten &mdash;
+                ohne laufende Pflichtkosten.
+              </p>
+            </div>
+            <a
+              href="#leistungen"
+              className="focus-ring inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-copper"
+            >
+              So machen wir es
+              <ArrowRight size={16} />
+            </a>
           </motion.div>
         </div>
       </section>
@@ -673,43 +732,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            className="mt-10 grid gap-4 md:grid-cols-4"
-          >
-            {[
-              { label: "Analyse", value: "Struktur vor Design", icon: FileSearch },
-              { label: "Conversion", value: "Klare Wege zur Anfrage", icon: MousePointerClick },
-              { label: "Workflow", value: "Planung bis Launch", icon: Workflow },
-              { label: "Vertrauen", value: "Eigentum statt Abo-Falle", icon: Handshake },
-            ].map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <motion.div
-                  key={item.label}
-                  variants={fadeUp}
-                  whileHover={{ y: -6, scale: 1.01 }}
-                  className="group relative overflow-hidden rounded-2xl border border-ink/10 bg-white/60 p-5 shadow-line backdrop-blur-sm"
-                >
-                  <div className="mb-8 flex h-10 w-10 items-center justify-center rounded-2xl bg-copper/10 text-copper transition-colors group-hover:bg-copper group-hover:text-white">
-                    <Icon size={20} />
-                  </div>
-                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-ink/40">{item.label}</p>
-                  <p className="mt-2 text-base font-semibold text-ink">{item.value}</p>
-                  <motion.div
-                    className="absolute bottom-0 left-0 h-1 bg-copper"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${42 + index * 14}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.9, delay: index * 0.12, ease: fillEase }}
-                  />
-                </motion.div>
-              );
-            })}
-          </motion.div>
         </div>
       </section>
 
@@ -1029,9 +1051,29 @@ export default function Home() {
           >
             {!isSubmitted ? (
               <form
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  setIsSubmitted(true);
+                  if (isSending) return;
+                  setIsSending(true);
+                  setSubmitError("");
+                  try {
+                    const formData = new FormData(e.currentTarget);
+                    const result = await sendContactRequest(formData);
+                    if (result?.success) {
+                      setIsSubmitted(true);
+                    } else {
+                      setSubmitError(
+                        result?.message ||
+                          "Der Versand ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+                      );
+                    }
+                  } catch (err) {
+                    setSubmitError(
+                      "Der Versand ist fehlgeschlagen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns per WhatsApp."
+                    );
+                  } finally {
+                    setIsSending(false);
+                  }
                 }}
               >
                 <div className="grid gap-5 sm:grid-cols-2">
@@ -1059,6 +1101,10 @@ export default function Home() {
                     </select>
                   </label>
                   <label className="space-y-2 text-sm font-semibold text-ink/70 sm:col-span-2">
+                    Telefon (optional)
+                    <input name="telefon" type="tel" autoComplete="tel" className="focus-ring h-12 w-full rounded-xl border border-ink/10 bg-paper px-4 text-base text-ink" placeholder="+49 151 23456789" />
+                  </label>
+                  <label className="space-y-2 text-sm font-semibold text-ink/70 sm:col-span-2">
                     Worum geht es?
                     <textarea required name="nachricht" className="focus-ring min-h-36 w-full resize-none rounded-xl border border-ink/10 bg-paper px-4 py-3 text-base text-ink" placeholder="Ich möchte meine bestehende Webseite modernisieren..." />
                   </label>
@@ -1066,12 +1112,13 @@ export default function Home() {
                 <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
                   <motion.button
                     type="submit"
+                    disabled={isSending}
                     whileHover={{ y: -3, scale: 1.02 }}
                     whileTap={{ scale: 0.97 }}
                     className="focus-ring group relative isolate inline-flex h-12 w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-copper px-6 text-sm font-semibold text-white shadow-soft sm:w-auto"
                   >
                     <span className="absolute inset-0 -z-10 translate-y-full bg-ink transition-transform duration-500 ease-out group-hover:translate-y-0" />
-                    Anfrage senden
+                    {isSending ? "Wird gesendet..." : "Anfrage senden"}
                     <CalendarCheck size={18} className="transition-transform group-hover:rotate-12" />
                   </motion.button>
                   <motion.a 
@@ -1096,6 +1143,11 @@ export default function Home() {
                     +49 152 12817629
                   </motion.a>
                 </div>
+                {submitError && (
+                  <p className="mt-4 text-sm font-semibold text-red-600" role="alert">
+                    {submitError}
+                  </p>
+                )}
               </form>
             ) : (
               <motion.div 
@@ -1106,7 +1158,7 @@ export default function Home() {
                 <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-copper/10 text-copper">
                   <Check size={32} strokeWidth={3} />
                 </div>
-                <h3 className="mb-2 text-2xl font-bold text-ink">Anfrage erfolgreich vorbereitet.</h3>
+                <h3 className="mb-2 text-2xl font-bold text-ink">Anfrage erfolgreich gesendet.</h3>
                 <p className="text-lg text-ink/70">
                   Vielen Dank für Ihr Interesse. Wir melden uns schnellstmöglich mit den nächsten Schritten.
                 </p>

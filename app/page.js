@@ -695,33 +695,7 @@ export default function Home() {
                   </motion.a>
                 ))}
               </div>
-              <div className="mt-auto rounded-2xl border border-ink/10 bg-paper/60 p-3">
-                <p className="mb-2 px-1 text-[10px] font-bold uppercase tracking-[0.14em] text-ink/40">
-                  {t("Sprache wählen")}
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { code: "de", label: "Deutsch" },
-                    { code: "ru", label: "Русский" },
-                  ].map((l) => (
-                    <motion.button
-                      key={l.code}
-                      type="button"
-                      onClick={() => switchLang(l.code)}
-                      whileTap={{ scale: 0.95 }}
-                      className={`flex h-11 items-center justify-center gap-2 rounded-xl text-sm font-bold transition-colors ${
-                        lang === l.code
-                          ? "bg-copper text-white shadow-soft"
-                          : "border border-ink/10 bg-white text-ink/70"
-                      }`}
-                    >
-                      {l.label}
-                      {lang === l.code && <Check size={14} />}
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-3 pt-4">
+              <div className="mt-auto space-y-3 pt-6">
                 <a
                   href="#kontakt"
                   onClick={() => setMobileMenuOpen(false)}

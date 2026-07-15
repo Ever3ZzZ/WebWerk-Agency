@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -116,26 +116,10 @@ const heroCards = [
 ];
 
 const problemCards = [
-  {
-    text: "Veraltetes Design",
-    sub: "Wirkt unseri\u00f6s und schreckt neue Kunden ab",
-    icon: TimerReset,
-  },
-  {
-    text: "Schwach auf Smartphones",
-    sub: "Dabei kommen die meisten Besucher mobil",
-    icon: Laptop,
-  },
-  {
-    text: "Langsame Ladezeiten",
-    sub: "Besucher springen ab, Google straft ab",
-    icon: Gauge,
-  },
-  {
-    text: "Hohe laufende Kosten",
-    sub: "Monat f\u00fcr Monat zahlen, ohne Gegenwert",
-    icon: Wallet,
-  },
+  { text: "Veraltetes Design", sub: "Wirkt unseriös und schreckt neue Kunden ab", icon: TimerReset },
+  { text: "Schwach auf Smartphones", sub: "Die meisten Besucher kommen über das Smartphone", icon: Laptop },
+  { text: "Langsame Ladezeiten", sub: "Besucher springen ab und Google stuft die Seite herab", icon: Gauge },
+  { text: "Hohe laufende Kosten", sub: "Monat für Monat zahlen, oft ohne echten Gegenwert", icon: Wallet },
 ];
 
 const navItems = [
@@ -252,86 +236,64 @@ const faqs = [
 ];
 
 const RU = {
-  Leistungen: "Услуги",
-  Preise: "Цены",
-  Portfolio: "Портфолио",
-  Ablauf: "Процесс",
-  FAQ: "Вопросы",
-  Anfrage: "Заявка",
+  "Leistungen": "Услуги",
+  "Preise": "Цены",
+  "Portfolio": "Портфолио",
+  "Ablauf": "Процесс",
+  "Anfrage": "Заявка",
+  "Sprache wählen": "Выбор языка",
+  "Alle Leistungen im Menü": "Все разделы — в меню",
   "Kostenlose Anfrage": "Бесплатная заявка",
-  "Direkt anrufen": "Позвонить",
+  "Direkt anrufen": "Позвонить напрямую",
+  "Bad Kissingen, Franken und deutschlandweit": "Бад-Киссинген, Франкония и вся Германия",
   "Webseiten, die Ihnen gehören.": "Сайты, которые принадлежат вам.",
-  "Alle Leistungen im Menü": "Все услуги — в меню",
-  "Bad Kissingen, Franken und deutschlandweit":
-    "Бад-Киссинген, Франкония и вся Германия",
-  "Moderne Webseiten für Unternehmen in Bad Kissingen und ganz Deutschland. Einmal bezahlen, professionell auftreten und frei entscheiden, ob Sie später Unterstützung brauchen.":
-    "Современные сайты для бизнеса в Бад-Киссингене и по всей Германии. Заплатите один раз, выглядите профессионально и сами решайте, нужна ли вам поддержка в будущем.",
+  "Moderne Webseiten für Unternehmen in Bad Kissingen und ganz Deutschland. Einmal bezahlen, professionell auftreten und frei entscheiden, ob Sie später Unterstützung brauchen.": "Современные сайты для компаний в Бад-Киссингене и по всей Германии. Заплатите один раз, выглядите профессионально и сами решайте, нужна ли вам поддержка позже.",
   "Kostenlose Beratung": "Бесплатная консультация",
   "Preise ansehen": "Посмотреть цены",
   "Keine langfristigen Verträge": "Без долгосрочных договоров",
-  "Keine versteckten Kosten": "Без скрытых платежей",
-  "Optionale Wartung": "Поддержка — по желанию",
+  "Keine versteckten Kosten": "Без скрытых расходов",
+  "Optionale Wartung": "Обслуживание по желанию",
   "Das Problem": "Проблема",
-  "Viele Unternehmen zahlen jeden Monat für eine Webseite, die ihnen kaum noch hilft.":
-    "Многие компании каждый месяц платят за сайт, который им почти не помогает.",
-  "100 EUR, 150 EUR oder mehr pro Monat, nur damit die Seite online bleibt. Oft kommen veraltetes Design, schlechte mobile Darstellung und langsame Ladezeiten dazu.":
-    "100, 150 евро и больше в месяц — только за то, чтобы сайт оставался онлайн. Вдобавок — устаревший дизайн, плохое отображение на телефонах и медленная загрузка.",
+  "Viele Unternehmen zahlen jeden Monat für eine Webseite, die ihnen kaum noch hilft.": "Многие компании каждый месяц платят за сайт, который им почти не помогает.",
+  "100 EUR, 150 EUR oder mehr pro Monat, nur damit die Seite online bleibt. Oft kommen veraltetes Design, schlechte mobile Darstellung und langsame Ladezeiten dazu.": "100, 150 евро и больше в месяц — только за то, чтобы сайт оставался онлайн. Часто к этому добавляются устаревший дизайн, плохое мобильное отображение и медленная загрузка.",
   "Veraltetes Design": "Устаревший дизайн",
-  "Wirkt unseriös und schreckt neue Kunden ab":
-    "Выглядит несолидно и отпугивает новых клиентов",
-  "Schwach auf Smartphones": "Плохо работает на смартфонах",
-  "Dabei kommen die meisten Besucher mobil":
-    "А ведь большинство посетителей заходят с телефона",
+  "Schwach auf Smartphones": "Слабо работает на смартфонах",
   "Langsame Ladezeiten": "Медленная загрузка",
-  "Besucher springen ab, Google straft ab":
-    "Посетители уходят, Google понижает сайт в выдаче",
-  "Hohe laufende Kosten": "Высокие ежемесячные расходы",
-  "Monat für Monat zahlen, ohne Gegenwert":
-    "Платить месяц за месяцем — без отдачи",
-  "Bei WebWerk Franken: einmal zahlen, modern auftreten — ohne laufende Pflichtkosten.":
-    "В WebWerk Franken: вы платите один раз и получаете современный сайт — без обязательных ежемесячных платежей.",
-  "So machen wir es": "Как мы это делаем",
+  "Hohe laufende Kosten": "Высокие постоянные расходы",
+  "Wirkt unseriös und schreckt neue Kunden ab": "Выглядит несолидно и отпугивает новых клиентов",
+  "Die meisten Besucher kommen über das Smartphone": "Большинство посетителей заходят со смартфона",
+  "Besucher springen ab und Google stuft die Seite herab": "Посетители уходят, а Google понижает сайт в выдаче",
+  "Monat für Monat zahlen, oft ohne echten Gegenwert": "Платить месяц за месяцем, часто без реальной отдачи",
+  "Bei WebWerk Franken: einmal zahlen, modern auftreten — ohne laufende Pflichtkosten.": "В WebWerk Franken: платите один раз, выглядите современно — без постоянных обязательных платежей.",
   "Unsere Alternative": "Наша альтернатива",
-  "Eine faire Webseite, die verkauft und Vertrauen schafft.":
-    "Честный сайт, который продаёт и вызывает доверие.",
-  "Wir entwickeln schnelle, mobil optimierte Webseiten für lokale Unternehmen, die klar informieren, professionell wirken und Anfragen einfacher machen.":
-    "Мы создаём быстрые сайты с мобильной оптимизацией для локального бизнеса: понятная информация, профессиональный вид и простая отправка заявки.",
-  "Geeignet für": "Подходит для",
+  "Eine faire Webseite, die verkauft und Vertrauen schafft.": "Честный сайт, который продаёт и вызывает доверие.",
+  "Wir entwickeln schnelle, mobil optimierte Webseiten für lokale Unternehmen, die klar informieren, professionell wirken und Anfragen einfacher machen.": "Мы разрабатываем быстрые, адаптированные под мобильные сайты для локального бизнеса: понятные, профессиональные и упрощающие получение заявок.",
+  "Geeignet für": "Для кого",
   "Restaurants & Cafés": "Рестораны и кафе",
   "Hotels & Pensionen": "Отели и пансионы",
-  Handwerksbetriebe: "Ремесленные и строительные компании",
+  "Handwerksbetriebe": "Ремесленные предприятия",
   "Ärzte & Praxen": "Врачи и клиники",
-  Dienstleister: "Сфера услуг",
+  "Dienstleister": "Поставщики услуг",
   "Lokale Unternehmen": "Локальный бизнес",
-  "Standort Bad Kissingen. Aktiv in Schweinfurt, Würzburg, Fulda und deutschlandweit.":
-    "Мы находимся в Бад-Киссингене. Работаем в Швайнфурте, Вюрцбурге, Фульде и по всей Германии.",
-  "Modernes Design, das Vertrauen aufbaut":
-    "Современный дизайн, который вызывает доверие",
-  "Schnelle Ladezeiten auf Smartphone und Desktop":
-    "Быстрая загрузка на смартфоне и компьютере",
-  "SEO-freundlicher Aufbau für lokale Suchanfragen":
-    "SEO-структура для локальных поисковых запросов",
-  "Persönlicher Ansprechpartner aus der Region":
-    "Личный контакт из вашего региона",
-  Pakete: "Пакеты",
+  "Modernes Design, das Vertrauen aufbaut": "Современный дизайн, который вызывает доверие",
+  "Schnelle Ladezeiten auf Smartphone und Desktop": "Быстрая загрузка на смартфоне и компьютере",
+  "SEO-freundlicher Aufbau für lokale Suchanfragen": "SEO-структура для локальных поисковых запросов",
+  "Persönlicher Ansprechpartner aus der Region": "Личный контакт из вашего региона",
+  "Pakete": "Пакеты",
   "Klare Preise ohne Pflicht-Abo.": "Понятные цены без обязательной подписки.",
-  "Sie bezahlen einmalig für Ihre Webseite und entscheiden selbst, ob Sie später technische Betreuung möchten.":
-    "Вы платите за сайт один раз и сами решаете, нужна ли вам техническая поддержка в дальнейшем.",
-  "Starter Website": "Сайт «Старт»",
-  "Business Website": "Сайт «Бизнес»",
-  "Wartung & Sicherheit": "Поддержка и безопасность",
-  "ab 590 EUR": "от 590 €",
-  "ab 990 EUR": "от 990 €",
-  "29 EUR / Monat": "29 € / месяц",
-  "Ideal für Restaurants, Cafés, kleine Betriebe und lokale Dienstleister, die online professionell auftreten möchten.":
-    "Идеально для ресторанов, кафе, небольших компаний и локальных услуг, которым нужен профессиональный сайт.",
-  "Für Unternehmen mit mehreren Leistungen, mehr Struktur und einem umfangreicheren Angebot.":
-    "Для компаний с несколькими услугами, сложной структурой и широким предложением.",
-  "Optional für Unternehmen, die technische Betreuung wünschen. Ohne Bindung und ohne Pflicht.":
-    "Опция для компаний, которым нужно техническое сопровождение. Без привязки и без обязательств.",
+  "Sie bezahlen einmalig für Ihre Webseite und entscheiden selbst, ob Sie später technische Betreuung möchten.": "Вы платите за сайт один раз и сами решаете, нужна ли вам техническая поддержка позже.",
+  "Starter Website": "Стартовый сайт",
+  "Business Website": "Бизнес-сайт",
+  "Wartung & Sicherheit": "Обслуживание и безопасность",
+  "ab 590 EUR": "от 590 EUR",
+  "ab 990 EUR": "от 990 EUR",
+  "29 EUR / Monat": "29 EUR / месяц",
+  "Ideal für Restaurants, Cafés, kleine Betriebe und lokale Dienstleister, die online professionell auftreten möchten.": "Идеально для ресторанов, кафе, небольших предприятий и локальных услуг, которые хотят профессионально выглядеть онлайн.",
+  "Für Unternehmen mit mehreren Leistungen, mehr Struktur und einem umfangreicheren Angebot.": "Для компаний с несколькими услугами, большей структурой и более широким предложением.",
+  "Optional für Unternehmen, die technische Betreuung wünschen. Ohne Bindung und ohne Pflicht.": "Опционально для компаний, которым нужна техническая поддержка. Без привязки и обязательств.",
   "Moderne Landing Page": "Современный лендинг",
-  "Mobil optimiert": "Оптимизация под мобильные",
-  Kontaktformular: "Контактная форма",
+  "Mobil optimiert": "Адаптация под мобильные",
+  "Kontaktformular": "Контактная форма",
   "Google Maps Integration": "Интеграция Google Maps",
   "Schnelle Ladezeiten": "Быстрая загрузка",
   "Bis zu 5 Unterseiten": "До 5 подстраниц",
@@ -340,102 +302,74 @@ const RU = {
   "Individuelle Inhalte": "Индивидуальный контент",
   "Erweiterte Kontaktmöglichkeiten": "Расширенные способы связи",
   "Technische Überwachung": "Технический мониторинг",
-  Sicherheitsupdates: "Обновления безопасности",
-  "Unterstützung bei Problemen": "Помощь при проблемах",
+  "Sicherheitsupdates": "Обновления безопасности",
+  "Unterstützung bei Problemen": "Поддержка при проблемах",
   "Schnelle Hilfe im Notfall": "Быстрая помощь в экстренных случаях",
   "Jederzeit kündbar": "Отмена в любой момент",
-  Beliebt: "Популярный",
+  "Beliebt": "Популярный",
   "Anfrage senden": "Отправить заявку",
-  Referenzen: "Наши работы",
-  "Webseiten für echte lokale Kaufentscheidungen.":
-    "Сайты, которые приводят реальных местных клиентов.",
-  "Ausgewählte Projekte für Gastronomie, Handwerk, Hotellerie und medizinische Dienstleistungen.":
-    "Избранные проекты для гастрономии, ремесла, отельного бизнеса и медицинских услуг.",
-  "Café & Bistro (Starter Website)": "Кафе и бистро (сайт «Старт»)",
-  "Handwerk & Bau (Starter Website)":
-    "Ремонт и строительство (сайт «Старт»)",
-  "Massage Studio (Business Website)": "Массажная студия (сайт «Бизнес»)",
-  "Elektriker-Fachbetrieb (Starter Website)":
-    "Электромонтажная компания (сайт «Старт»)",
+  "Referenzen": "Наши работы",
+  "Webseiten für echte lokale Kaufentscheidungen.": "Сайты, которые помогают клиентам принимать решения.",
+  "Ausgewählte Projekte für Gastronomie, Handwerk, Hotellerie und medizinische Dienstleistungen.": "Избранные проекты для гастрономии, ремесла, отельного бизнеса и медицинских услуг.",
+  "Café & Bistro (Starter Website)": "Кафе и бистро (Стартовый сайт)",
+  "Handwerk & Bau (Starter Website)": "Ремесло и строительство (Стартовый сайт)",
+  "Massage Studio (Business Website)": "Массажная студия (Бизнес-сайт)",
+  "Elektriker-Fachbetrieb (Starter Website)": "Электромонтажная компания (Стартовый сайт)",
   "Bad Kissingen": "Бад-Киссинген",
-  Rhön: "Рён",
-  Niederlande: "Нидерланды",
-  "Warme Markenwirkung, klare Speisekarten-Struktur und einfache Reservierungsanfrage.":
-    "Тёплый образ бренда, понятная структура меню и простая форма бронирования.",
-  "Vertrauensstarker Auftritt für Sanierung, Innenausbau und regionale Bauleistungen.":
-    "Внушающий доверие сайт: санация, внутренняя отделка и региональные строительные услуги.",
-  "Professionelle Massageangebote mit modernem Design und intuitiver Buchung.":
-    "Профессиональные массажные услуги с современным дизайном и удобной записью.",
-  "Elektriker in Veenendaal für Sicherungskästen, Ladestationen, Beleuchtung und Altbausanierung":
-    "Электрик в Венендале: электрощиты, зарядные станции, освещение и реконструкция старых зданий",
-  "Ein klarer Prozess statt Agentur-Nebel.":
-    "Понятный процесс вместо агентского тумана.",
-  "Vom ersten Gespräch bis zur Veröffentlichung wissen Sie, was als Nächstes passiert und welche Entscheidung ansteht.":
-    "От первого разговора до публикации вы знаете, что будет дальше и какое решение предстоит принять.",
+  "Rhön": "Рён",
+  "Niederlande": "Нидерланды",
+  "Warme Markenwirkung, klare Speisekarten-Struktur und einfache Reservierungsanfrage.": "Тёплый образ бренда, понятная структура меню и простая форма бронирования.",
+  "Vertrauensstarker Auftritt für Sanierung, Innenausbau und regionale Bauleistungen.": "Вызывающий доверие сайт для санации, внутренней отделки и региональных строительных услуг.",
+  "Professionelle Massageangebote mit modernem Design und intuitiver Buchung.": "Профессиональные массажные услуги с современным дизайном и удобной записью.",
+  "Elektriker in Veenendaal für Sicherungskästen, Ladestationen, Beleuchtung und Altbausanierung": "Электрик в Венендале: электрощиты, зарядные станции, освещение и реновация старых зданий",
+  "Ein klarer Prozess statt Agentur-Nebel.": "Понятный процесс вместо агентского тумана.",
+  "Vom ersten Gespräch bis zur Veröffentlichung wissen Sie, was als Nächstes passiert und welche Entscheidung ansteht.": "От первого разговора до публикации вы знаете, что будет дальше и какое решение предстоит принять.",
   "Kostenloses Erstgespräch": "Бесплатная первая консультация",
   "Planung Ihrer Webseite": "Планирование вашего сайта",
   "Design & Entwicklung": "Дизайн и разработка",
-  Veröffentlichung: "Публикация",
-  "Auf Wunsch Betreuung und Wartung": "Сопровождение и поддержка по желанию",
-  Start: "Старт",
-  Strategie: "Стратегия",
-  Umsetzung: "Реализация",
-  Launch: "Запуск",
-  Ziel: "Цель",
-  "Kurze Antworten auf die wichtigsten Fragen.":
-    "Короткие ответы на главные вопросы.",
-  "Gehört mir die Webseite wirklich?":
-    "Сайт действительно будет принадлежать мне?",
-  "Ja. Nach der Fertigstellung können Sie die Webseite komplett kaufen. Sie sind nicht gezwungen, dauerhaft monatliche Agenturgebühren zu zahlen.":
-    "Да. После завершения работы вы можете полностью выкупить сайт. Вы не обязаны постоянно платить агентству ежемесячные взносы.",
-  "Kann ich trotzdem Wartung buchen?": "Могу ли я всё же заказать поддержку?",
-  "Ja. Wartung ist optional. Sie können sie nutzen, wenn Sie technische Sicherheit und schnelle Hilfe möchten, aber sie ist keine Voraussetzung.":
-    "Да. Поддержка опциональна. Подключайте её, если хотите техническую надёжность и быструю помощь, но это не обязательное условие.",
-  "Arbeiten Sie nur in Bad Kissingen?":
-    "Вы работаете только в Бад-Киссингене?",
-  "Nein. Wir arbeiten lokal in Bad Kissingen, Schweinfurt, Würzburg und Fulda, betreuen aber auch Unternehmen in ganz Deutschland.":
-    "Нет. Мы работаем локально в Бад-Киссингене, Швайнфурте, Вюрцбурге и Фульде, но также обслуживаем компании по всей Германии.",
-  "Ist die Webseite für Smartphones optimiert?":
-    "Сайт оптимизирован под смартфоны?",
-  "Ja. Jede Webseite wird mobil optimiert, schnell aufgebaut und so strukturiert, dass Kunden auf dem Smartphone schnell Kontakt aufnehmen können.":
-    "Да. Каждый сайт оптимизируется под мобильные, быстро загружается и построен так, чтобы клиент мог быстро связаться с вами со смартфона.",
-  "Möchten Sie Ihre Webseite modernisieren oder monatliche Kosten reduzieren?":
-    "Хотите обновить сайт или сократить ежемесячные расходы?",
-  "Kontaktieren Sie uns unverbindlich. Wir zeigen Ihnen, welche Möglichkeiten es für Ihr Unternehmen gibt.":
-    "Свяжитесь с нами без обязательств. Мы покажем, какие возможности есть для вашего бизнеса.",
+  "Veröffentlichung": "Публикация",
+  "Auf Wunsch Betreuung und Wartung": "Поддержка и обслуживание по желанию",
+  "Start": "Старт",
+  "Strategie": "Стратегия",
+  "Umsetzung": "Реализация",
+  "Launch": "Запуск",
+  "Ziel": "Цель",
+  "Kurze Antworten auf die wichtigsten Fragen.": "Короткие ответы на главные вопросы.",
+  "Gehört mir die Webseite wirklich?": "Сайт действительно будет принадлежать мне?",
+  "Ja. Nach der Fertigstellung können Sie die Webseite komplett kaufen. Sie sind nicht gezwungen, dauerhaft monatliche Agenturgebühren zu zahlen.": "Да. После завершения вы можете полностью выкупить сайт. Вы не обязаны постоянно платить агентству ежемесячные взносы.",
+  "Kann ich trotzdem Wartung buchen?": "Могу ли я всё же заказать обслуживание?",
+  "Ja. Wartung ist optional. Sie können sie nutzen, wenn Sie technische Sicherheit und schnelle Hilfe möchten, aber sie ist keine Voraussetzung.": "Да. Обслуживание опционально. Подключайте его, если хотите техническую надёжность и быструю помощь, но это не обязательное условие.",
+  "Arbeiten Sie nur in Bad Kissingen?": "Вы работаете только в Бад-Киссингене?",
+  "Nein. Wir arbeiten lokal in Bad Kissingen, Schweinfurt, Würzburg und Fulda, betreuen aber auch Unternehmen in ganz Deutschland.": "Нет. Мы работаем локально в Бад-Киссингене, Швайнфурте, Вюрцбурге и Фульде, но также обслуживаем компании по всей Германии.",
+  "Ist die Webseite für Smartphones optimiert?": "Сайт оптимизирован для смартфонов?",
+  "Ja. Jede Webseite wird mobil optimiert, schnell aufgebaut und so strukturiert, dass Kunden auf dem Smartphone schnell Kontakt aufnehmen können.": "Да. Каждый сайт адаптируется под мобильные, быстро загружается и структурирован так, чтобы клиенты могли быстро связаться с вами со смартфона.",
+  "Möchten Sie Ihre Webseite modernisieren oder monatliche Kosten reduzieren?": "Хотите модернизировать сайт или сократить ежемесячные расходы?",
+  "Kontaktieren Sie uns unverbindlich. Wir zeigen Ihnen, welche Möglichkeiten es für Ihr Unternehmen gibt.": "Свяжитесь с нами без обязательств. Мы покажем, какие возможности есть для вашего бизнеса.",
   "Bad Kissingen, Franken": "Бад-Киссинген, Франкония",
-  Name: "Имя",
-  Unternehmen: "Компания",
-  "E-Mail": "E-mail",
-  Branche: "Сфера деятельности",
+  "Name": "Имя",
+  "Unternehmen": "Компания",
+  "E-Mail": "E-Mail",
+  "Branche": "Отрасль",
   "Telefon (optional)": "Телефон (по желанию)",
   "Worum geht es?": "О чём речь?",
-  "Max Mustermann": "Иван Иванов",
-  "Muster GmbH": "ООО «Пример»",
-  "Ich möchte meine bestehende Webseite modernisieren...":
-    "Хочу обновить свой существующий сайт...",
-  "Restaurant / Café": "Ресторан / кафе",
-  "Hotel / Pension": "Отель / пансион",
-  Handwerk: "Ремесло и строительство",
-  Arztpraxis: "Врачебная практика",
-  Dienstleistung: "Услуги",
-  Sonstiges: "Другое",
-  "Wird gesendet...": "Отправка...",
+  "Restaurant / Café": "Ресторан / Кафе",
+  "Hotel / Pension": "Отель / Пансион",
+  "Handwerk": "Ремесло",
+  "Arztpraxis": "Врачебная практика",
+  "Dienstleistung": "Услуги",
+  "Sonstiges": "Другое",
+  "Bitte wählen": "Выберите",
+  "Wird gesendet…": "Отправка…",
   "WhatsApp Kontakt": "Написать в WhatsApp",
+  "Der Versand ist fehlgeschlagen. Bitte versuchen Sie es später erneut.": "Не удалось отправить. Пожалуйста, попробуйте позже.",
   "Anfrage erfolgreich gesendet.": "Заявка успешно отправлена.",
-  "Vielen Dank für Ihr Interesse. Wir melden uns schnellstmöglich mit den nächsten Schritten.":
-    "Спасибо за интерес! Мы свяжемся с вами в ближайшее время и обсудим следующие шаги.",
+  "Vielen Dank für Ihr Interesse. Wir melden uns schnellstmöglich mit den nächsten Schritten.": "Спасибо за ваш интерес! Мы свяжемся с вами в ближайшее время и обсудим следующие шаги.",
   "Zurück zum Formular": "Вернуться к форме",
-  "Der Versand ist fehlgeschlagen. Bitte versuchen Sie es erneut.":
-    "Не удалось отправить заявку. Пожалуйста, попробуйте ещё раз.",
-  "Der Versand ist fehlgeschlagen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns per WhatsApp.":
-    "Не удалось отправить заявку. Попробуйте ещё раз или напишите нам в WhatsApp.",
-  "Professionelles Webdesign und lokale SEO für Unternehmen in Bad Kissingen, Franken und ganz Deutschland. Wir erstellen Webseiten, die Ihnen gehören, ohne versteckte Kosten und ohne Abo-Falle.":
-    "Профессиональный веб-дизайн и локальное SEO для компаний в Бад-Киссингене, Франконии и по всей Германии. Мы создаём сайты, которые принадлежат вам, — без скрытых платежей и подписочных ловушек.",
-  Kontakt: "Контакты",
-  Rechtliches: "Правовая информация",
-  Impressum: "Импрессум (Impressum)",
-  Datenschutz: "Защита данных",
+  "Professionelles Webdesign und lokale SEO für Unternehmen in Bad Kissingen, Franken und ganz Deutschland. Wir erstellen Webseiten, die Ihnen gehören, ohne versteckte Kosten und ohne Abo-Falle.": "Профессиональный веб-дизайн и локальное SEO для компаний в Бад-Киссингене, Франконии и по всей Германии. Мы создаём сайты, которые принадлежат вам — без скрытых расходов и подписочной ловушки.",
+  "Kontakt": "Контакты",
+  "Rechtliches": "Правовая информация",
+  "Impressum": "Импрессум",
+  "Datenschutz": "Защита данных",
   "Alle Rechte vorbehalten.": "Все права защищены.",
 };
 
@@ -581,75 +515,51 @@ export default function Home() {
   });
   const [activeFaq, setActiveFaq] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showMenuHint, setShowMenuHint] = useState(false);
+  const [lang, setLang] = useState("de");
+  const [langOpen, setLangOpen] = useState(false);
 
-  useEffect(() => {
-    let showTimer;
-    let hideTimer;
+  React.useEffect(() => {
     try {
-      if (!window.localStorage.getItem("ww-menu-hint-seen")) {
-        showTimer = setTimeout(() => setShowMenuHint(true), 1200);
-        hideTimer = setTimeout(() => {
-          setShowMenuHint(false);
-          window.localStorage.setItem("ww-menu-hint-seen", "1");
-        }, 6200);
+      const saved = localStorage.getItem("ww-lang");
+      if (saved === "ru" || saved === "de") setLang(saved);
+      if (!localStorage.getItem("ww-menu-hint-seen")) {
+        const showTimer = setTimeout(() => setShowMenuHint(true), 1200);
+        const hideTimer = setTimeout(() => setShowMenuHint(false), 6500);
+        return () => {
+          clearTimeout(showTimer);
+          clearTimeout(hideTimer);
+        };
       }
-    } catch (e) {
-      // localStorage unavailable (private mode) - skip hint persistence
-    }
-    return () => {
-      clearTimeout(showTimer);
-      clearTimeout(hideTimer);
-    };
+    } catch (e) {}
   }, []);
 
   const dismissMenuHint = () => {
     setShowMenuHint(false);
     try {
-      window.localStorage.setItem("ww-menu-hint-seen", "1");
+      localStorage.setItem("ww-menu-hint-seen", "1");
     } catch (e) {}
   };
 
-  const [lang, setLang] = useState("de");
-
-  useEffect(() => {
+  const switchLang = (l) => {
+    setLang(l);
+    setLangOpen(false);
     try {
-      if (window.localStorage.getItem("ww-lang") === "ru") setLang("ru");
+      localStorage.setItem("ww-lang", l);
     } catch (e) {}
-  }, []);
-
-  const toggleLang = () => {
-    setLang((current) => {
-      const next = current === "de" ? "ru" : "de";
-      try {
-        window.localStorage.setItem("ww-lang", next);
-      } catch (e) {}
-      return next;
-    });
   };
 
-  const t = (str) => (lang === "ru" && RU[str]) || str;
+  const t = (str) => (lang === "ru" && RU[str] ? RU[str] : str);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-paper text-ink">
       <div className="grain" />
 
       <header className="fixed left-0 right-0 top-0 z-50 bg-transparent px-4 pt-4 lg:border-b lg:border-ink/10 lg:bg-paper/80 lg:px-0 lg:pt-0 lg:backdrop-blur-xl">
-        <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between lg:h-20 lg:px-8">
-          <button
-            type="button"
-            onClick={toggleLang}
-            aria-label="Sprache wechseln - DE / RU"
-            className="focus-ring flex h-12 items-center gap-1.5 rounded-full border border-ink/10 bg-white/88 px-4 text-sm font-bold text-ink shadow-soft backdrop-blur-xl lg:hidden"
-          >
-            <Globe size={16} className="text-copper" />
-            <span className={lang === "de" ? "text-ink" : "text-ink/35"}>DE</span>
-            <span className="text-ink/25">/</span>
-            <span className={lang === "ru" ? "text-ink" : "text-ink/35"}>RU</span>
-          </button>
+        <nav className="mx-auto flex h-14 max-w-7xl items-center justify-end lg:h-20 lg:justify-between lg:px-8">
           <a href="#" className="focus-ring hidden items-center gap-3 rounded-full lg:flex">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-sm font-semibold text-white">
               W
@@ -666,17 +576,56 @@ export default function Home() {
               </a>
             ))}
           </div>
-          <button
-            type="button"
-            onClick={toggleLang}
-            aria-label="Sprache wechseln - DE / RU"
-            className="focus-ring hidden h-11 items-center gap-1.5 rounded-full border border-ink/10 bg-white/70 px-4 text-sm font-bold text-ink shadow-line transition hover:border-copper/40 lg:flex"
-          >
-            <Globe size={15} className="text-copper" />
-            <span className={lang === "de" ? "text-ink" : "text-ink/35"}>DE</span>
-            <span className="text-ink/25">/</span>
-            <span className={lang === "ru" ? "text-ink" : "text-ink/35"}>RU</span>
-          </button>
+          <div className="relative mr-3 hidden items-center lg:flex">
+            <motion.button
+              type="button"
+              onClick={() => setLangOpen((v) => !v)}
+              whileTap={{ scale: 0.94 }}
+              className="focus-ring flex h-11 items-center gap-2 rounded-full border border-ink/10 bg-white px-4 text-sm font-bold text-ink transition-colors hover:border-copper/40 hover:text-copper"
+            >
+              <Globe size={14} className="text-copper" />
+              {lang.toUpperCase()}
+            </motion.button>
+            <AnimatePresence>
+              {langOpen && (
+                <>
+                  <div className="fixed inset-0" onClick={() => setLangOpen(false)} />
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                    transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute right-0 top-14 z-[80] min-w-[180px] rounded-2xl border border-ink/10 bg-white p-2 shadow-[0_8px_40px_-4px_rgba(0,0,0,0.22)]"
+                  >
+                    <p className="px-3 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-ink/40">
+                      {t("Sprache wählen")}
+                    </p>
+                    {[
+                      { code: "de", label: "Deutsch" },
+                      { code: "ru", label: "Русский" },
+                    ].map((l) => (
+                      <motion.button
+                        key={l.code}
+                        type="button"
+                        onClick={() => switchLang(l.code)}
+                        whileHover={{ x: 3 }}
+                        whileTap={{ scale: 0.96 }}
+                        className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold ${
+                          lang === l.code ? "bg-copper/10 text-copper" : "text-ink/70"
+                        }`}
+                      >
+                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink/5 text-[10px] font-bold uppercase">
+                          {l.code}
+                        </span>
+                        {l.label}
+                        {lang === l.code && <Check size={14} className="ml-auto" />}
+                      </motion.button>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
           <Button href="#kontakt" hasSeaFill={true} className="hidden h-11 !px-6 bg-copper text-white border-none lg:inline-flex">
             {t("Anfrage")}
             <ArrowRight size={16} />
@@ -685,15 +634,17 @@ export default function Home() {
             type="button"
             aria-label={mobileMenuOpen ? "Menü schließen" : "Menü öffnen"}
             aria-expanded={mobileMenuOpen}
-            onClick={() => { dismissMenuHint(); setMobileMenuOpen((open) => !open); }}
+            onClick={() => {
+              dismissMenuHint();
+              setMobileMenuOpen((open) => !open);
+            }}
             whileTap={{ scale: 0.94 }}
             className="focus-ring relative z-[70] flex h-12 w-12 items-center justify-center rounded-full border border-ink/10 bg-white/88 text-ink shadow-soft backdrop-blur-xl lg:hidden"
           >
             {showMenuHint && !mobileMenuOpen && (
               <>
-                <span className="pointer-events-none absolute -inset-1 animate-ping rounded-full border-2 border-copper/70" />
-                <span className="pointer-events-none absolute -inset-0.5 rounded-full ring-2 ring-copper/60" />
-                <span className="pointer-events-none absolute right-full top-1/2 mr-3 -translate-y-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white shadow-soft">
+                <span className="pointer-events-none absolute inset-0 animate-ping rounded-full border-2 border-copper/60 [animation-duration:1.6s]" />
+                <span className="pointer-events-none absolute right-14 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-xs font-bold text-white shadow-soft">
                   {t("Alle Leistungen im Menü")}
                 </span>
               </>
@@ -722,7 +673,7 @@ export default function Home() {
               <div className="mb-6 flex items-center justify-between border-b border-ink/10 pb-5">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.16em] text-copper">Webwerk Franken</p>
-                  <p className="mt-1 text-sm font-medium text-ink/58">{t("Webseiten, die Ihnen gehören.")}</p>
+                  <p className="mt-1 text-sm font-medium text-ink/58">Webseiten, die Ihnen gehören.</p>
                 </div>
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ink text-sm font-semibold text-white">
                   W
@@ -744,7 +695,33 @@ export default function Home() {
                   </motion.a>
                 ))}
               </div>
-              <div className="mt-auto space-y-3 pt-6">
+              <div className="mt-auto rounded-2xl border border-ink/10 bg-paper/60 p-3">
+                <p className="mb-2 px-1 text-[10px] font-bold uppercase tracking-[0.14em] text-ink/40">
+                  {t("Sprache wählen")}
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { code: "de", label: "Deutsch" },
+                    { code: "ru", label: "Русский" },
+                  ].map((l) => (
+                    <motion.button
+                      key={l.code}
+                      type="button"
+                      onClick={() => switchLang(l.code)}
+                      whileTap={{ scale: 0.95 }}
+                      className={`flex h-11 items-center justify-center gap-2 rounded-xl text-sm font-bold transition-colors ${
+                        lang === l.code
+                          ? "bg-copper text-white shadow-soft"
+                          : "border border-ink/10 bg-white text-ink/70"
+                      }`}
+                    >
+                      {l.label}
+                      {lang === l.code && <Check size={14} />}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-3 pt-4">
                 <a
                   href="#kontakt"
                   onClick={() => setMobileMenuOpen(false)}
@@ -767,6 +744,56 @@ export default function Home() {
       </header>
 
       <section className="relative flex items-start pt-24 lg:min-h-[92vh] lg:items-center lg:pt-28">
+        <div className="absolute left-5 top-4 z-[60] lg:hidden">
+          <motion.button
+            type="button"
+            onClick={() => setLangOpen((v) => !v)}
+            whileTap={{ scale: 0.91 }}
+            className="focus-ring flex h-12 items-center gap-2 rounded-full border border-ink/10 bg-white/88 px-4 text-sm font-bold text-ink shadow-soft backdrop-blur-xl"
+          >
+            <Globe size={15} className="text-copper" />
+            {lang.toUpperCase()}
+          </motion.button>
+          <AnimatePresence>
+            {langOpen && (
+              <>
+                <div className="fixed inset-0" onClick={() => setLangOpen(false)} />
+                <motion.div
+                  initial={{ opacity: 0, y: -10, scale: 0.94 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.94 }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute left-0 top-14 min-w-[190px] rounded-2xl border border-ink/10 bg-white p-2 shadow-[0_8px_40px_-4px_rgba(0,0,0,0.22)]"
+                >
+                  <p className="px-3 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-ink/40">
+                    {t("Sprache wählen")}
+                  </p>
+                  {[
+                    { code: "de", label: "Deutsch" },
+                    { code: "ru", label: "Русский" },
+                  ].map((l) => (
+                    <motion.button
+                      key={l.code}
+                      type="button"
+                      onClick={() => switchLang(l.code)}
+                      whileHover={{ x: 3 }}
+                      whileTap={{ scale: 0.96 }}
+                      className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold ${
+                        lang === l.code ? "bg-copper/10 text-copper" : "text-ink/70"
+                      }`}
+                    >
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink/5 text-[10px] font-bold uppercase">
+                        {l.code}
+                      </span>
+                      {l.label}
+                      {lang === l.code && <Check size={14} className="ml-auto" />}
+                    </motion.button>
+                  ))}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-paper to-transparent" />
           <div className="mx-auto h-full max-w-7xl px-5 sm:px-8">
@@ -846,10 +873,7 @@ export default function Home() {
 
       <section id="problem" className="section-rule relative z-10 px-5 py-24 sm:px-8 md:py-32">
         <div className="mx-auto max-w-7xl">
-          <SectionIntro
-            eyebrow={t("Das Problem")}
-            title={t("Viele Unternehmen zahlen jeden Monat für eine Webseite, die ihnen kaum noch hilft.")}
-          >
+          <SectionIntro eyebrow={t("Das Problem")} title={t("Viele Unternehmen zahlen jeden Monat für eine Webseite, die ihnen kaum noch hilft.")}>
             {t("100 EUR, 150 EUR oder mehr pro Monat, nur damit die Seite online bleibt. Oft kommen veraltetes Design, schlechte mobile Darstellung und langsame Ladezeiten dazu.")}
           </SectionIntro>
           <motion.div
@@ -859,32 +883,28 @@ export default function Home() {
             viewport={{ once: true, margin: "-80px" }}
             className="grid gap-4 md:grid-cols-4"
           >
-            {problemCards.map((item) => (
+            {problemCards.map((item, index) => (
               <motion.div
                 key={item.text}
                 variants={fadeUp}
-                whileHover={{ y: -6 }}
-                className="group relative min-h-40 overflow-hidden rounded-[2rem] border border-dashed border-ink/20 bg-white/45 p-7 transition duration-300 hover:border-red-400/50 hover:bg-white/70 hover:shadow-[0_16px_40px_-12px_rgba(220,38,38,0.28)]"
+                whileHover={{ y: -6, scale: 1.02 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="group relative overflow-hidden rounded-[1.5rem] border border-red-800/10 bg-red-50/50 p-6 transition-colors hover:border-red-800/25 hover:bg-red-50"
               >
-                <span className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-red-500/10 opacity-60 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
-                <span className="absolute right-5 top-5 flex h-7 w-7 items-center justify-center rounded-full bg-red-500/10 text-red-600 transition-colors duration-300 group-hover:bg-red-600 group-hover:text-white">
-                  <span className="absolute inset-0 animate-ping rounded-full bg-red-500/25 [animation-duration:2.4s]" />
-                  <X
-                    size={15}
-                    strokeWidth={3}
-                    className="relative transition-transform duration-300 group-hover:rotate-90"
-                  />
-                </span>
-                <item.icon
-                  size={26}
-                  className="mb-5 text-ink/30 transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:text-red-500/60"
-                />
-                <p className="text-lg font-bold leading-tight text-ink/55 transition-colors duration-300 group-hover:text-ink/80">
-                  {t(item.text)}
-                </p>
-                <p className="mt-2 text-sm font-medium leading-snug text-ink/40 transition-colors duration-300 group-hover:text-ink/60">
-                  {t(item.sub)}
-                </p>
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-800/10 text-red-800/70">
+                    <item.icon size={20} />
+                  </div>
+                  <motion.div
+                    animate={{ scale: [1, 1.18, 1], opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: index * 0.35 }}
+                    className="flex h-6 w-6 items-center justify-center rounded-full bg-red-800/10 text-red-800/80"
+                  >
+                    <X size={13} strokeWidth={3} />
+                  </motion.div>
+                </div>
+                <p className="text-lg font-bold leading-tight text-ink">{t(item.text)}</p>
+                <p className="mt-2 text-sm leading-relaxed text-ink/55">{t(item.sub)}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -892,34 +912,22 @@ export default function Home() {
             variants={fadeUp}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.4 }}
-            className="mt-6 flex flex-col items-start justify-between gap-5 rounded-[2rem] border border-moss/25 bg-[#DDE5D6] p-7 shadow-line sm:flex-row sm:items-center"
+            viewport={{ once: true }}
+            className="mt-6 flex flex-wrap items-center gap-3 rounded-[1.5rem] border border-moss/20 bg-moss/5 px-6 py-5"
           >
-            <div className="flex items-start gap-4 sm:items-center">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-moss text-white">
-                <Check size={20} strokeWidth={3} />
-              </span>
-              <p className="text-lg font-bold leading-snug text-ink">
-                {t("Bei WebWerk Franken: einmal zahlen, modern auftreten — ohne laufende Pflichtkosten.")}
-              </p>
-            </div>
-            <a
-              href="#leistungen"
-              className="focus-ring inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-copper"
-            >
-              {t("So machen wir es")}
-              <ArrowRight size={16} />
-            </a>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-moss/15 text-moss">
+              <Check size={16} strokeWidth={3} />
+            </span>
+            <p className="text-base font-bold text-ink">
+              {t("Bei WebWerk Franken: einmal zahlen, modern auftreten — ohne laufende Pflichtkosten.")}
+            </p>
           </motion.div>
         </div>
       </section>
 
       <section id="leistungen" className="section-rule relative z-10 px-5 py-24 sm:px-8 md:py-32">
         <div className="mx-auto max-w-7xl">
-          <SectionIntro
-            eyebrow={t("Unsere Alternative")}
-            title={t("Eine faire Webseite, die verkauft und Vertrauen schafft.")}
-          >
+          <SectionIntro eyebrow={t("Unsere Alternative")} title={t("Eine faire Webseite, die verkauft und Vertrauen schafft.")}>
             {t("Wir entwickeln schnelle, mobil optimierte Webseiten für lokale Unternehmen, die klar informieren, professionell wirken und Anfragen einfacher machen.")}
           </SectionIntro>
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
@@ -942,7 +950,8 @@ export default function Home() {
               </div>
               <div className="mt-14 border-t border-ink/5 pt-10">
                 <p className="text-2xl font-semibold leading-tight text-ink/80 md:text-3xl">
-                  {t("Standort Bad Kissingen. Aktiv in Schweinfurt, Würzburg, Fulda und deutschlandweit.")}
+                  Standort Bad Kissingen. Aktiv in Schweinfurt, Würzburg,
+                  Fulda und deutschlandweit.
                 </p>
               </div>
             </motion.div>
@@ -966,10 +975,7 @@ export default function Home() {
 
       <section id="preise" className="section-rule relative z-10 px-5 py-24 sm:px-8 md:py-32">
         <div className="mx-auto max-w-7xl">
-          <SectionIntro
-            eyebrow={t("Pakete")}
-            title={t("Klare Preise ohne Pflicht-Abo.")}
-          >
+          <SectionIntro eyebrow={t("Pakete")} title={t("Klare Preise ohne Pflicht-Abo.")}>
             {t("Sie bezahlen einmalig für Ihre Webseite und entscheiden selbst, ob Sie später technische Betreuung möchten.")}
           </SectionIntro>
           <motion.div 
@@ -1048,10 +1054,7 @@ export default function Home() {
 
       <section id="portfolio" className="section-rule relative z-10 px-5 py-24 sm:px-8 md:py-32">
         <div className="mx-auto max-w-7xl">
-          <SectionIntro
-            eyebrow={t("Referenzen")}
-            title={t("Webseiten für echte lokale Kaufentscheidungen.")}
-          >
+          <SectionIntro eyebrow={t("Referenzen")} title={t("Webseiten für echte lokale Kaufentscheidungen.")}>
             {t("Ausgewählte Projekte für Gastronomie, Handwerk, Hotellerie und medizinische Dienstleistungen.")}
           </SectionIntro>
           <div className="grid gap-12 lg:grid-cols-2">
@@ -1099,10 +1102,7 @@ export default function Home() {
 
       <section id="prozess" className="section-rule relative z-10 px-5 py-24 sm:px-8 md:py-32">
         <div className="mx-auto max-w-7xl">
-          <SectionIntro
-            eyebrow={t("Ablauf")}
-            title={t("Ein klarer Prozess statt Agentur-Nebel.")}
-          >
+          <SectionIntro eyebrow={t("Ablauf")} title={t("Ein klarer Prozess statt Agentur-Nebel.")}>
             {t("Vom ersten Gespräch bis zur Veröffentlichung wissen Sie, was als Nächstes passiert und welche Entscheidung ansteht.")}
           </SectionIntro>
           <motion.div
@@ -1206,10 +1206,7 @@ export default function Home() {
 
       <section id="faq" className="section-rule relative z-10 px-5 py-24 sm:px-8 md:py-32">
         <div className="mx-auto max-w-5xl">
-          <SectionIntro
-            eyebrow={t("FAQ")}
-            title={t("Kurze Antworten auf die wichtigsten Fragen.")}
-          />
+          <SectionIntro eyebrow={t("FAQ")} title={t("Kurze Antworten auf die wichtigsten Fragen.")} />
           <div className="space-y-4">
             {faqs.map((faq, i) => (
               <motion.div
@@ -1290,37 +1287,26 @@ export default function Home() {
               <form
                 onSubmit={async (e) => {
                   e.preventDefault();
-                  if (isSending) return;
+                  const data = new FormData(e.currentTarget);
                   setIsSending(true);
                   setSubmitError("");
-                  try {
-                    const formData = new FormData(e.currentTarget);
-                    const result = await sendContactRequest(formData);
-                    if (result?.success) {
-                      setIsSubmitted(true);
-                    } else {
-                      setSubmitError(
-                        result?.message ||
-                          t("Der Versand ist fehlgeschlagen. Bitte versuchen Sie es erneut.")
-                      );
-                    }
-                  } catch (err) {
-                    setSubmitError(
-                      t("Der Versand ist fehlgeschlagen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns per WhatsApp.")
-                    );
-                  } finally {
-                    setIsSending(false);
+                  const result = await sendContactRequest(data);
+                  setIsSending(false);
+                  if (result && result.success) {
+                    setIsSubmitted(true);
+                  } else {
+                    setSubmitError((result && result.message) || t("Der Versand ist fehlgeschlagen. Bitte versuchen Sie es später erneut."));
                   }
                 }}
               >
                 <div className="grid gap-5 sm:grid-cols-2">
                   <label className="space-y-2 text-sm font-semibold text-ink/70">
                     {t("Name")}
-                    <input required name="name" className="focus-ring h-12 w-full rounded-xl border border-ink/10 bg-paper px-4 text-base text-ink" placeholder={t("Max Mustermann")} />
+                    <input required name="name" className="focus-ring h-12 w-full rounded-xl border border-ink/10 bg-paper px-4 text-base text-ink" placeholder="Max Mustermann" />
                   </label>
                   <label className="space-y-2 text-sm font-semibold text-ink/70">
                     {t("Unternehmen")}
-                    <input name="unternehmen" className="focus-ring h-12 w-full rounded-xl border border-ink/10 bg-paper px-4 text-base text-ink" placeholder={t("Muster GmbH")} />
+                    <input name="unternehmen" className="focus-ring h-12 w-full rounded-xl border border-ink/10 bg-paper px-4 text-base text-ink" placeholder="Muster GmbH" />
                   </label>
                   <label className="space-y-2 text-sm font-semibold text-ink/70">
                     {t("E-Mail")}
@@ -1337,13 +1323,13 @@ export default function Home() {
                       <option>{t("Sonstiges")}</option>
                     </select>
                   </label>
-                  <label className="space-y-2 text-sm font-semibold text-ink/70 sm:col-span-2">
+                  <label className="space-y-2 text-sm font-semibold text-ink/70">
                     {t("Telefon (optional)")}
-                    <input name="telefon" type="tel" autoComplete="tel" className="focus-ring h-12 w-full rounded-xl border border-ink/10 bg-paper px-4 text-base text-ink" placeholder="+49 151 23456789" />
+                    <input name="telefon" type="tel" placeholder="+49 152 12817629" className="focus-ring h-12 w-full rounded-xl border border-ink/10 bg-paper px-4 text-base text-ink" />
                   </label>
                   <label className="space-y-2 text-sm font-semibold text-ink/70 sm:col-span-2">
                     {t("Worum geht es?")}
-                    <textarea required name="nachricht" className="focus-ring min-h-36 w-full resize-none rounded-xl border border-ink/10 bg-paper px-4 py-3 text-base text-ink" placeholder={t("Ich möchte meine bestehende Webseite modernisieren...")} />
+                    <textarea required name="nachricht" className="focus-ring min-h-36 w-full resize-none rounded-xl border border-ink/10 bg-paper px-4 py-3 text-base text-ink" placeholder="Ich möchte meine bestehende Webseite modernisieren..." />
                   </label>
                 </div>
                 <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -1355,7 +1341,7 @@ export default function Home() {
                     className="focus-ring group relative isolate inline-flex h-12 w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-copper px-6 text-sm font-semibold text-white shadow-soft sm:w-auto"
                   >
                     <span className="absolute inset-0 -z-10 translate-y-full bg-ink transition-transform duration-500 ease-out group-hover:translate-y-0" />
-                    {isSending ? t("Wird gesendet...") : t("Anfrage senden")}
+                    {isSending ? t("Wird gesendet…") : t("Anfrage senden")}
                     <CalendarCheck size={18} className="transition-transform group-hover:rotate-12" />
                   </motion.button>
                   <motion.a 
@@ -1381,9 +1367,7 @@ export default function Home() {
                   </motion.a>
                 </div>
                 {submitError && (
-                  <p className="mt-4 text-sm font-semibold text-red-600" role="alert">
-                    {submitError}
-                  </p>
+                  <p className="mt-4 text-sm font-semibold text-red-700">{submitError}</p>
                 )}
               </form>
             ) : (

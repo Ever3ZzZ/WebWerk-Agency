@@ -174,12 +174,12 @@ const pricing = [
 ];
 
 const portfolio = [
-  {
+  { 
     title: "Golden Horn Café & Bistro",
     type: "Café & Bistro (Starter Website)",
     location: "Bad Kissingen",
     image: "/portfolio/golden-horn.png",
-    href: "https://golden-horn-tau.vercel.app/",
+    href: "https://www.goldenhorn-cafe-bistro.de/",
     result: "Warme Markenwirkung, klare Speisekarten-Struktur und einfache Reservierungsanfrage.",
   },
   {
@@ -191,13 +191,13 @@ const portfolio = [
     result: "Vertrauensstarker Auftritt für Sanierung, Innenausbau und regionale Bauleistungen.",
   },
   {
-    title: "ReinZeit",
-    type: "Professionelle Reinigung (Starter Website)",
-    location: "Bad Kissingen",
-    image: "/portfolio/reinzeit-photo.png",
-    href: "https://rein-zeit.vercel.app/",
-    result: "Ihre zuverlässige Reinigung für Kleidung und Textilien – professionell, schnell und sorgfältig",
-  },
+  title: "Heli Barbershop",
+  type: "Professioneller Barbershop (Starter Website)",
+  location: "Bad Kissingen",
+  image: "/portfolio/HELI.png",
+  href: "https://heli-barber-pseudo.vercel.app/",
+  result: "Ihr professioneller Barbershop in Bad Kissingen: Herrenhaarschnitte, Bartpflege und klassische Rasur.",
+},
   {
     title: "Elektoria",
     type: "Elektriker-Fachbetrieb Professionelle Reinigung (Business Website)",
